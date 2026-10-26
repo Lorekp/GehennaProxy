@@ -47,7 +47,7 @@ cmake --build build --config Debug
 
 Runtime data is resolved relative to the process's **working directory**, not the executable location. Use an isolated working directory and disposable test credentials.
 
-There is a schema mismatch to resolve before authentication can work on a new database: `DataHandler` creates `KEYS` with only `USED` and `HASH`, while `Server::validateKey` also queries `PERMISSIONLEVEL`. A usable test database therefore needs all three columns and locally provisioned test rows. There is no key-creation command, migration, or bundled client in this repository. Do not assume the tracked databases are suitable test fixtures.
+There is a schema mismatch to resolve before authentication can work on a new database: `DataHandler` creates `KEYS` with only `USED` and `HASH`, while `Server::validateKey` also queries `PERMISSIONLEVEL`. A usable test database therefore needs all three columns and locally provisioned test rows. The repository supplies an empty, compatible schema in `data/key-schema.sql`; authentication databases and credentials are not tracked. From the chosen working directory, create `data/` and load that schema into `data/key.db` with SQLite before starting the server. Provision fresh test rows locally; there is no key-creation command, migration, or bundled client. Do not reuse keys from older copies of this prototype.
 
 For a single-configuration Windows build, after preparing the SQLite configuration and test database, run the executable from the chosen working directory:
 
